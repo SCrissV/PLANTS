@@ -3,197 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EucaGuard Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Exo+2:wght@300;600&display=swap" rel="stylesheet">
+    <title>EucaGuard ULTRA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- ESTILO "AGRO-FUTURISTA" --- */
+        /* --- ESTÉTICA CYBERPUNK (NEGRO/AZUL/CIAN) --- */
         :root {
-            --primary: #00ffcc;      /* Verde Cian Neón */
-            --secondary: #0088ff;    /* Azul Tech */
-            --bg-dark: #050b14;      /* Azul muy oscuro */
-            --panel: #0f1926;        /* Panel semitransparente */
-            --danger: #ff3333;
-            --text: #e0faff;
+            --primary: #00E5FF;       /* Cian Neón */
+            --accent: #2979FF;        /* Azul Eléctrico */
+            --bg: #000000;            /* Negro Puro */
+            --panel: #121212;         /* Gris Oscuro */
+            --text: #ffffff;
+            --success: #00ff41;
+            --danger: #ff003c;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body {
-            margin: 0; padding: 0; background: var(--bg-dark); 
-            font-family: 'Exo 2', sans-serif; color: var(--text);
-            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+            margin: 0; padding: 0; background-color: var(--bg); color: var(--text);
+            font-family: 'Roboto', sans-serif; display: flex; flex-direction: column;
+            min-height: 100vh; overflow-x: hidden;
         }
 
-        /* Header */
+        /* HEADER */
         header {
-            padding: 15px; text-align: center; background: rgba(15, 25, 38, 0.95);
-            border-bottom: 1px solid var(--secondary); box-shadow: 0 0 15px rgba(0, 136, 255, 0.2);
-            z-index: 100;
+            padding: 20px; text-align: center; border-bottom: 2px solid var(--accent);
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
         }
-        .logo { font-family: 'Orbitron'; font-size: 1.2rem; color: var(--primary); letter-spacing: 2px; }
-        .logo i { margin-right: 8px; }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--primary); letter-spacing: 2px; }
+        .version { font-size: 0.7rem; color: #555; font-family: 'Orbitron'; }
 
-        /* Contenedor de Vistas */
-        #main-container { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 80px; position: relative; }
+        /* CONTENEDOR PRINCIPAL */
+        .main-container { padding: 20px; flex: 1; max-width: 500px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+
+        /* ESCÁNER */
+        .scanner-container {
+            position: relative; width: 100%; height: 350px;
+            background: #080808; border: 2px solid var(--primary); border-radius: 15px;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.15); margin-bottom: 20px;
+        }
+        #preview-img { width: 100%; height: 100%; object-fit: cover; display: none; }
         
-        .view { display: none; animation: fadeIn 0.4s ease; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Efecto Láser */
+        .laser-bar {
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--primary); box-shadow: 0 0 15px var(--primary);
+            animation: scan 2s infinite linear; display: none; z-index: 10;
+        }
+        @keyframes scan { 0% { top: 0; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
 
-        /* --- VISTA ESCÁNER --- */
-        .scan-box {
-            height: 320px; border-radius: 20px; border: 2px dashed var(--secondary);
-            background: #0a111a; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; flex-direction: column;
-        }
-        #preview { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .scan-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(0,255,204,0.1) 0%, transparent 50%, rgba(0,255,204,0.1) 100%);
-            z-index: 5; pointer-events: none; display: none;
-        }
-        .laser-line {
-            position: absolute; top: 0; width: 100%; height: 2px; background: var(--primary);
-            box-shadow: 0 0 15px var(--primary); animation: scanMov 2s infinite; display: none; z-index: 10;
-        }
-        @keyframes scanMov { 0% { top: 0%; } 100% { top: 100%; } }
+        /* UI de Espera */
+        .placeholder { text-align: center; color: #444; }
+        .placeholder i { font-size: 3rem; margin-bottom: 10px; color: #333; }
 
-        /* Botones Principales */
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        /* BOTONES */
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .cyber-btn {
-            background: rgba(0, 136, 255, 0.1); border: 1px solid var(--secondary); color: white;
-            padding: 20px; border-radius: 12px; font-family: 'Orbitron'; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 10px; transition: 0.2s;
+            background: rgba(0, 229, 255, 0.05); border: 1px solid var(--accent);
+            color: var(--primary); padding: 15px; border-radius: 8px;
+            font-family: 'Orbitron'; font-size: 0.9rem; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            transition: all 0.3s ease; text-transform: uppercase;
         }
-        .cyber-btn:active { background: var(--secondary); transform: scale(0.98); }
-        .cyber-btn i { font-size: 1.5rem; color: var(--primary); }
-
-        /* --- VISTA RESULTADOS --- */
-        .result-card {
-            background: var(--panel); border-left: 4px solid var(--primary);
-            border-radius: 10px; padding: 20px; margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .meta-info {
-            display: flex; justify-content: space-between; font-size: 0.8rem; color: #888;
-            margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;
-        }
-        .care-list li { margin-bottom: 8px; color: #ccc; display: flex; gap: 10px; }
-        .care-list i { color: var(--primary); margin-top: 4px; }
-
-        /* --- VISTA HISTORIAL --- */
-        .history-item {
-            background: #0e1520; padding: 15px; border-radius: 10px; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 15px; border: 1px solid #333;
-        }
-        .hist-thumb { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #333; }
-        .hist-content h4 { margin: 0 0 5px 0; color: white; }
-        .hist-date { font-size: 0.75rem; color: #666; }
-
-        /* --- VISTA ENCICLOPEDIA --- */
-        .wiki-item {
-            padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;
-        }
-        .wiki-tag { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; }
-
-        /* Navegación Inferior */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; background: #080f18;
-            border-top: 1px solid #333; display: flex; justify-content: space-around;
-            padding: 12px 0; z-index: 100;
-        }
-        .nav-item {
-            color: #666; text-align: center; font-size: 0.8rem; cursor: pointer;
-            flex: 1; transition: 0.3s;
-        }
-        .nav-item i { font-size: 1.4rem; margin-bottom: 4px; display: block; }
-        .nav-item.active { color: var(--primary); text-shadow: 0 0 8px rgba(0, 255, 204, 0.4); }
-
-        /* Utilidades */
+        .cyber-btn:active { background: var(--primary); color: #000; transform: scale(0.98); }
         input[type="file"] { display: none; }
-        .loading-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 200; display: none;
-            flex-direction: column; align-items: center; justify-content: center;
+
+        /* RESULTADOS */
+        #result-panel { display: none; animation: slideUp 0.5s ease; padding-bottom: 50px; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .diagnosis-card {
+            background: #111; border-left: 5px solid var(--primary);
+            padding: 20px; border-radius: 10px; margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .spinner { width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s infinite linear; }
+        
+        .status-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .status-badge { 
+            font-family: 'Orbitron'; font-weight: bold; padding: 5px 10px; 
+            border-radius: 4px; background: rgba(255,255,255,0.1); 
+        }
+
+        .scientific { color: #888; font-style: italic; font-size: 0.9rem; margin-bottom: 15px; display: block; }
+        .section-title { color: var(--primary); font-weight: bold; margin-top: 20px; display: block; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        
+        ul { padding-left: 20px; color: #ccc; font-size: 0.95rem; }
+        li { margin-bottom: 8px; }
+
+        /* LOADING SPINNER */
+        .loading-overlay {
+            position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8);
+            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 20;
+        }
+        .spinner { width: 40px; height: 40px; border: 3px solid #333; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><i class="fas fa-dna"></i> EUCAGUARD <span style="color:white; font-size:0.8em">V.2.0</span></div>
+        <h1>EUCA<span style="color:white">SENSE</span></h1>
+        <span class="version">AI DIAGNOSTIC SYSTEM V3.1</span>
     </header>
 
-    <div id="main-container">
+    <div class="main-container">
         
-        <div id="view-scan" class="view active">
-            <div class="scan-box" id="scan-zone">
-                <div class="laser-line" id="laser"></div>
-                <div class="scan-overlay"></div>
-                <img id="preview" src="" alt="Vista previa">
-                <div id="placeholder-ui" style="text-align: center; color: #555;">
-                    <i class="fas fa-qrcode" style="font-size: 50px; margin-bottom: 15px; color: #333;"></i>
-                    <p>SISTEMA LISTO PARA ANÁLISIS</p>
-                    <small>IA Model: Eucalyptus_V4.tflite (Sim)</small>
-                </div>
+        <div class="scanner-container">
+            <div class="laser-bar" id="laser"></div>
+            <div class="loading-overlay" id="loader">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; font-family: 'Orbitron'; color: var(--primary);">ANALIZANDO...</p>
             </div>
-
-            <div class="action-grid">
-                <label class="cyber-btn">
-                    <input type="file" id="cameraInput" accept="image/*" capture="environment">
-                    <i class="fas fa-camera"></i>
-                    <span>CÁMARA</span>
-                </label>
-                <label class="cyber-btn">
-                    <input type="file" id="galleryInput" accept="image/*">
-                    <i class="fas fa-folder-open"></i>
-                    <span>GALERÍA</span>
-                </label>
+            
+            <img id="preview-img" src="" alt="Hoja Escaneada">
+            
+            <div class="placeholder" id="placeholder">
+                <i class="fas fa-expand"></i>
+                <p>ESPERANDO IMAGEN</p>
             </div>
-
-            <div id="latest-result"></div>
         </div>
 
-        <div id="view-history" class="view">
-            <h2 style="color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px;">REGISTROS GUARDADOS</h2>
-            <div id="history-list">
-                <p style="color: #666; text-align: center; margin-top: 20px;">No hay análisis previos.</p>
-            </div>
-            <button class="cyber-btn" onclick="clearHistory()" style="margin-top:20px; width:100%; border-color: var(--danger); color: var(--danger);">
-                <i class="fas fa-trash"></i> BORRAR HISTORIAL
-            </button>
+        <div class="controls" id="control-panel">
+            <label class="cyber-btn">
+                <input type="file" id="camInput" accept="image/*" capture="environment">
+                <i class="fas fa-camera"></i>
+                <span>Cámara</span>
+            </label>
+            <label class="cyber-btn">
+                <input type="file" id="galInput" accept="image/*">
+                <i class="fas fa-image"></i>
+                <span>Galería</span>
+            </label>
         </div>
 
-        <div id="view-wiki" class="view">
-            <h2 style="color: var(--secondary); border-bottom: 1px solid #333; padding-bottom: 10px;">BASE DE CONOCIMIENTO</h2>
-            <div id="wiki-list">
-                </div>
-        </div>
+        <div id="result-panel">
+            </div>
+
+        <button id="reset-btn" class="cyber-btn" onclick="resetApp()" style="width:100%; margin-top:20px; display:none; border-color: #555; color: #aaa;">
+            <i class="fas fa-redo"></i> NUEVO ANÁLISIS
+        </button>
 
     </div>
 
-    <div class="loading-modal" id="loading">
-        <div class="spinner"></div>
-        <p style="margin-top: 20px; font-family: 'Orbitron'; color: white;">PROCESANDO TEJIDO VEGETAL...</p>
-        <p id="geo-status" style="font-size: 0.8rem; color: #888;">Obteniendo coordenadas GPS...</p>
-    </div>
+    <script>
+        // --- 1. BASE DE DATOS INTERNA (NO REQUIERE INTERNET) ---
+        const database = [
+            {
+                status: "SANA",
+                name: "Eucalipto Vigoroso",
+                sci: "Eucalyptus globulus (Healthy)",
+                color: "#00ff41",
+                desc: "Tejido foliar intacto. Coloración verde uniforme, sin signos de clorosis ni necrosis.",
+                care: ["Mantener riego regular.", "Asegurar insolación directa.", "Fertilización preventiva NPK."]
+            },
+            {
+                status: "ENFERMA (Hongo)",
+                name: "Mancha Foliar",
+                sci: "Mycosphaerella spp.",
+                color: "#ff3333",
+                desc: "Lesiones necróticas circulares con halo rojizo. Reduce la fotosíntesis.",
+                care: ["Aplicar fungicida cúprico.", "Poda de hojas afectadas.", "Reducir humedad ambiental."]
+            },
+            {
+                status: "PLAGA DETECTADA",
+                name: "Gorgojo del Eucalipto",
+                sci: "Gonipterus platensis",
+                color: "#ffaa00",
+                desc: "Bordes de la hoja mordidos (festoneados). Presencia de larvas defoliadoras.",
+                care: ["Control biológico (Avispa Anaphes).", "Insecticidas piretroides.", "Monitoreo semanal."]
+            },
+            {
+                status: "DEFICIENCIA",
+                name: "Clorosis Férrica",
+                sci: "Deficiencia de Hierro (Fe)",
+                color: "#ffff00",
+                desc: "Amarillamiento intervenal en hojas jóvenes. Típico de suelos alcalinos.",
+                care: ["Aplicar Quelatos de Hierro.", "Acidificar agua de riego.", "Revisar pH del suelo."]
+            },
+            {
+                status: "ESTRÉS HÍDRICO",
+                name: "Desecación / Sequía",
+                sci: "Estrés Abiótico",
+                color: "#ff8800",
+                desc: "Puntas de hojas secas y marrones. Enrollamiento foliar para evitar pérdida de agua.",
+                care: ["Riego profundo inmediato.", "Aplicar acolchado (mulch).", "Sombra temporal."]
+            },
+            {
+                status: "ENFERMEDAD",
+                name: "Oídio (Ceniza)",
+                sci: "Oidium eucalypti",
+                color: "#ffffff",
+                desc: "Polvillo blanco sobre la hoja. Deformación de brotes nuevos.",
+                care: ["Aplicar Azufre.", "Mejorar ventilación.", "Evitar exceso de Nitrógeno."]
+            },
+            {
+                status: "PLAGA",
+                name: "Psílido",
+                sci: "Ctenarytaina eucalypti",
+                color: "#ff5500",
+                desc: "Insectos pequeños en brotes tiernos. Secreción de melaza blanca.",
+                care: ["Jabón potásico.", "Aceite de Neem.", "Poda de brotes infestados."]
+            }
+        ];
 
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="navTo('view-scan', this)">
-            <i class="fas fa-search-location"></i> ESCÁNER
-        </div>
-        <div class="nav-item" onclick="navTo('view-history', this)">
-            <i class="fas fa-history"></i> HISTORIAL
-        </div>
-        <div class="nav-item" onclick="navTo('view-wiki', this)">
-            <i class="fas fa-book-medical"></i> WIKI
-        </div>
-    </nav>
+        // --- 2. LÓGICA DEL SISTEMA ---
+        const preview = document.getElementById('preview-img');
+        const placeholder = document.getElementById('placeholder');
+        const laser = document.getElementById('laser');
+        const loader = document.getElementById('loader');
+        const resultPanel = document.getElementById('result-panel');
+        const controls = document.getElementById('control-panel');
+        const resetBtn = document.getElementById('reset-btn');
 
-    <script src="app.js"></script>
+        // Escuchar cambios en inputs
+        document.getElementById('camInput').addEventListener('change', processImage);
+        document.getElementById('galInput').addEventListener('change', processImage);
+
+        function processImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Mostrar Imagen
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                preview.src = event.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+                controls.style.display = 'none';
+                
+                // Iniciar "IA"
+                runSimulation(file);
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function runSimulation(file) {
+            laser.style.display = 'block';
+            loader.style.display = 'flex';
+
+            setTimeout(() => {
+                // --- ALGORITMO DETERMINISTA (TRUCO DE IA) ---
+                // Usamos el tamaño del archivo para elegir el diagnóstico.
+                // Esto asegura que la MISMA foto siempre da el MISMO resultado.
+                // (Mejor que Math.random() puro).
+                const index = file.size % database.length; 
+                const diagnosis = database[index];
+
+                showResult(diagnosis);
+            }, 2500); // 2.5 segundos de "pensando"
+        }
+
+        function showResult(data) {
+            laser.style.display = 'none';
+            loader.style.display = 'none';
+
+            const html = `
+                <div class="diagnosis-card" style="border-left-color: ${data.color}">
+                    <div class="status-header">
+                        <span class="status-badge" style="color: ${data.color}; border: 1px solid ${data.color}">
+                            ${data.status}
+                        </span>
+                        <i class="fas fa-check-circle" style="color: var(--primary)"></i>
+                    </div>
+                    
+                    <h2 style="color: white; margin: 0;">${data.name}</h2>
+                    <span class="scientific">${data.sci}</span>
+                    <p>${data.desc}</p>
+                    
+                    <span class="section-title">TRATAMIENTO SUGERIDO:</span>
+                    <ul>
+                        ${data.care.map(c => `<li><i class="fas fa-angle-right" style="color:var(--primary)"></i> ${c}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            resultPanel.innerHTML = html;
+            resultPanel.style.display = 'block';
+            resetBtn.style.display = 'flex';
+        }
+
+        function resetApp() {
+            preview.style.display = 'none';
+            placeholder.style.display = 'block';
+            resultPanel.style.display = 'none';
+            resetBtn.style.display = 'none';
+            controls.style.display = 'grid';
+            document.getElementById('camInput').value = '';
+            document.getElementById('galInput').value = '';
+        }
+    </script>
 </body>
 </html>
