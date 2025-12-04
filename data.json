@@ -1,0 +1,144 @@
+{
+  "diagnoses": [
+    {
+      "id": "healthy",
+      "status": "SANA",
+      "name": "Eucalipto Vigoroso",
+      "scientific_name": "Eucalyptus globulus (Saludable)",
+      "color": "#00ff00",
+      "description": "Follaje en estado óptimo. Las hojas presentan color verde intenso, cutícula cerosa brillante y turgencia adecuada. No se observan clorosis, manchas necróticas ni deformaciones.",
+      "care_instructions": [
+        "Mantener programa de riego actual.",
+        "Monitoreo preventivo quincenal.",
+        "Asegurar exposición solar directa.",
+        "Fertilización de mantenimiento N-P-K 15-15-15."
+      ]
+    },
+    {
+      "id": "myco",
+      "status": "ENFERMEDAD FÚNGICA",
+      "name": "Mancha Foliar (Mycosphaerella)",
+      "scientific_name": "Teratosphaeria / Mycosphaerella spp.",
+      "color": "#ff3333",
+      "description": "Infección severa caracterizada por lesiones necróticas circulares marrones con halos rojizos o amarillos. Provoca defoliación prematura y pérdida de crecimiento en plantas juveniles.",
+      "care_instructions": [
+        "Aplicar fungicida cúprico (Óxido de Cobre) inmediatamente.",
+        "Realizar poda sanitaria de ramas bajas infectadas.",
+        "Quemar los restos de poda (no compostar).",
+        "Evitar mojar el follaje durante el riego."
+      ]
+    },
+    {
+      "id": "gonipterus",
+      "status": "PLAGA DETECTADA",
+      "name": "Gorgojo del Eucalipto",
+      "scientific_name": "Gonipterus platensis",
+      "color": "#ff8800",
+      "description": "Daño severo en bordes de las hojas (mordeduras festoneadas). Se detecta presencia de adultos o larvas que consumen la epidermis de la hoja, dejando un aspecto quemado.",
+      "care_instructions": [
+        "Control biológico mediante avispa parasitoide (Anaphes nitens).",
+        "Aplicación de insecticidas piretroides en infestaciones altas.",
+        "Monitoreo de ootecas (huevos) en hojas nuevas.",
+        "Eliminación manual en viveros pequeños."
+      ]
+    },
+    {
+      "id": "botrytis",
+      "status": "HONGO OPORTUNISTA",
+      "name": "Moho Gris (Botrytis)",
+      "scientific_name": "Botrytis cinerea",
+      "color": "#d400ff",
+      "description": "Tejido blando cubierto de micelio grisáceo y velloso. Ocurre generalmente en condiciones de alta humedad o sobre heridas previas en la hoja o tallo.",
+      "care_instructions": [
+        "Reducir drásticamente la humedad ambiental.",
+        "Ventilar el área de cultivo para reducir condensación.",
+        "Aplicar fungicidas específicos (Iprodiona).",
+        "Desinfectar herramientas de poda con hipoclorito."
+      ]
+    },
+    {
+      "id": "iron_deficiency",
+      "status": "DEFICIENCIA NUTRICIONAL",
+      "name": "Clorosis Férrica",
+      "scientific_name": "Deficiencia de Hierro (Fe)",
+      "color": "#ffff00",
+      "description": "Amarillamiento intervenal en hojas jóvenes (los nervios permanecen verdes). Causado generalmente por suelos alcalinos (pH alto) que bloquean la absorción de hierro.",
+      "care_instructions": [
+        "Aplicar Quelatos de Hierro al suelo o vía foliar.",
+        "Acidificar ligeramente el agua de riego.",
+        "Revisar el pH del sustrato (Ideal: 5.5 - 6.5).",
+        "Mejorar la aireación del suelo."
+      ]
+    },
+    {
+      "id": "ctenarytaina",
+      "status": "PLAGA DETECTADA",
+      "name": "Psílido del Eucalipto",
+      "scientific_name": "Ctenarytaina eucalypti",
+      "color": "#ff5500",
+      "description": "Insectos chupadores de savia que se agrupan en brotes tiernos. Secretan una sustancia blanca cerosa y melaza, lo que puede atraer hongos secundarios como la fumagina.",
+      "care_instructions": [
+        "Lavado a presión con jabón potásico para eliminar melaza.",
+        "Aplicación de aceite de Neem como repelente.",
+        "Uso de insecticidas sistémicos (Imidacloprid) en casos graves.",
+        "Proteger la fauna auxiliar (mariquitas)."
+      ]
+    },
+    {
+      "id": "oidium",
+      "status": "ENFERMEDAD FÚNGICA",
+      "name": "Oídio (Ceniza)",
+      "scientific_name": "Oidium eucalypti",
+      "color": "#eeeeee",
+      "description": "Polvillo blanco harinoso sobre la superficie de las hojas. Provoca arrugamiento, deformación de brotes nuevos y detención del crecimiento.",
+      "care_instructions": [
+        "Aplicación de Azufre mojable en horas frescas.",
+        "Uso de fungicidas triazoles si persiste.",
+        "Evitar el exceso de fertilizante nitrogenado.",
+        "Eliminar brotes terminales muy afectados."
+      ]
+    },
+    {
+      "id": "alternaria",
+      "status": "INFECCIÓN COMÚN",
+      "name": "Tizón Temprano",
+      "scientific_name": "Alternaria spp.",
+      "color": "#brown",
+      "description": "Manchas marrones concéntricas (forma de diana) en hojas viejas. A medida que avanza, las manchas se unen y necrosan gran parte del tejido foliar.",
+      "care_instructions": [
+        "Mantener las plantas bien nutridas y sin estrés.",
+        "Aplicar fungicidas preventivos (Clortalonil).",
+        "Riego por goteo para evitar mojar hojas.",
+        "Rotación de cultivos en vivero."
+      ]
+    },
+    {
+      "id": "water_stress",
+      "status": "ESTRÉS HÍDRICO",
+      "name": "Sequía / Deshidratación",
+      "scientific_name": "Estrés Abiótico",
+      "color": "#cd853f",
+      "description": "Hojas marchitas, puntas secas y crujientes de color marrón, enrollamiento foliar hacia arriba. La planta intenta conservar agua cerrando estomas.",
+      "care_instructions": [
+        "Riego profundo inmediato de emergencia.",
+        "Aplicar acolchado (mulch) para retener humedad.",
+        "Verificar si el suelo es hidrofóbico.",
+        "Poda ligera para reducir demanda de agua."
+      ]
+    },
+    {
+      "id": "phytophthora",
+      "status": "ALERTA CRÍTICA",
+      "name": "Podredumbre de Raíz",
+      "scientific_name": "Phytophthora cinnamomi",
+      "color": "#8b0000",
+      "description": "Marchitez súbita de toda la planta a pesar de haber humedad en el suelo. Las hojas se tornan rojizas o marrones sin caerse. Daño severo en el sistema radicular.",
+      "care_instructions": [
+        "Aislar la planta inmediatamente (enfermedad muy contagiosa).",
+        "Aplicar Fosetil-Aluminio (fungicida sistémico).",
+        "Mejorar drásticamente el drenaje del suelo.",
+        "No reutilizar el sustrato de plantas infectadas."
+      ]
+    }
+  ]
+}
